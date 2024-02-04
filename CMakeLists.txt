@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.26)
-project(thesis)
+set(NAME thesis)
+project(${NAME})
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(thesis main.cpp)
+include_directories(include)
+add_subdirectory(src)
+
+add_executable(${NAME} ${SOURCES})
