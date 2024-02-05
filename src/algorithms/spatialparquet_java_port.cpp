@@ -33,6 +33,21 @@ namespace algorithms {
 ////        auto double_bytes = vector<byte_t>(in.begin(), in.end());
 ////        auto data = double_bytes.data();
 //        b.openBytes(reinterpret_cast<const byte_t*>(in.data()), in.size());
+        uint32_t currentCount = 0;
+        uint64_t finalSize = sizeof(double_t) * in.size() * 8 + 8;
+        int32_t redundantBits = 0;
+        const uint8_t bitsInType = sizeof(double_t) * 8;
+        for (uint8_t i = 0; i < bitsInType; i++) {
+            const auto bitCount = bitCounter[i];
+            if (bitCount == 0)
+                continue;
+            currentCount += bitCount;
+            uint64_t newSize = totalValues * (64 - i) + currentCount * 64 + 8;
+            if (newSize < finalSize) {
+                finalSize = newSize;
+                redundantBits = i;
+            }
+        }
 
         throw std::exception{};
     }
