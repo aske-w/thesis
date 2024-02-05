@@ -4,7 +4,7 @@
 
 #include "algorithms/spatialparquet_java_port.hpp"
 #include "helpers/bitstream.hpp"
-
+#include <iostream>
 using std::vector;
 
 namespace algorithms {
@@ -15,25 +15,44 @@ namespace algorithms {
         bitstream b{};
         auto data = in.data();
         b.openBytes(data, in.size());
+
         const auto n = b.read<uint8_t>(8);
         const uint64_t reset_marker = -1ull >> (64 - n);
-        uint64_t prev = 0;
-        auto curr = b.read<uint64_t>(64);
-        auto tmp = ((curr >> 1) ^ -(curr & 1)) + prev;
-        double_t coord = *reinterpret_cast<double_t*>(&tmp);
-        out.push_back(coord);
-        prev = tmp;
+        int64_t prev = 0;
+
         while (b.has_more_bits()) {
-            auto zigzag = b.read<uint64_t>(n);
-            if (zigzag != reset_marker) {
-                auto delta = ((zigzag >> 1) ^ -(zigzag & 1));
-                curr = prev + delta;
+            int64_t tmp;
+            if (n == 64) {
+                tmp = b.read<int64_t>(64);
             } else {
-                curr = b.read<uint64_t>(64);
+                // TODO maybe this can be signed
+                tmp = b.read<uint64_t>(n);
+                std::cout << std::hex << tmp << std::endl;
+                if (tmp == reset_marker) {
+                    tmp = b.read<int64_t>(64);
+                    std::cout << "\t" << std::hex << tmp << std::endl;
+                }
             }
-            out.push_back(*reinterpret_cast<double_t*>(&curr));
-            prev = curr;
+            tmp = ((tmp >> 1) ^ -(tmp & 1)) + prev;
+            prev = tmp;
+            out.push_back(*reinterpret_cast<double_t*>(&tmp));
         }
+//        auto curr = b.read<uint64_t>(64);
+//        auto tmp = ((curr >> 1) ^ -(curr & 1)) + prev;
+//        double_t coord = *reinterpret_cast<double_t*>(&tmp);
+//        out.push_back(coord);
+//        prev = tmp;
+//        while (b.has_more_bits()) {
+//            auto zigzag = b.read<uint64_t>(n);
+//            if (zigzag != reset_marker) {
+//                auto delta = ((zigzag >> 1) ^ -(zigzag & 1));
+//                curr = prev + delta;
+//            } else {
+//                curr = b.read<uint64_t>(64);
+//            }
+//            out.push_back(*reinterpret_cast<double_t*>(&curr));
+//            prev = curr;
+//        }
 
 //        uint64_t curr = (*reinterpret_cast<const uint64_t*>(&*iter));
 //        iter++;

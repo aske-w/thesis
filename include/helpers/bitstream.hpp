@@ -27,7 +27,7 @@ public:
 //    }
     /**************************/
     byte_t getbit(byte_t x, uint64_t y) {
-        return (x >> y) & 1;
+        return (x >> (7 - y)) & 1;
     }
 //    int chbit(int x, int i, bool v) {
 //        if(v) return x | (1 << (7 - i));
@@ -65,17 +65,26 @@ public:
     template<typename T>
     T read(uint32_t bits) {
         T dat = 0;
+//        auto pt = *reinterpret_cast<const T*>(data + (index / 8));
+//        T mask = ~(((uint64_t)(-1ll)) << (bits));
+//        T mask2 = (-1ull << (bits));
+//        uint64_t num = 0xfcf7ffffffffffff;
+//        auto result2 = pt & mask2;
+//        auto result = pt & mask;
         // 0000000000000011001101010000000100000101110010111111101011101010
         for(uint64_t i = 0; i < bits; i++) {
+            auto data_index = (index + i) / 8;
+            auto data_bit = 7 - ((i + index) % 8);
             auto bit = getbit(data[index / 8 + i / 8], i % 8);
-            auto shift = i;
-            auto shifted_bit = (bit | 0ull) << shift;
-            dat = dat | (shifted_bit);
+            auto _bit = (data[data_index] >> data_bit) & 1;
+//            auto shift = i;
+//            auto shifted_bit = (bit | 0ull) << shift;
+            dat = (dat << 1) | (_bit);
         }
 //        auto padding = sizeof(T) * 8 - bits;
 //        dat = swap_endian(dat);
 //        dat >>= padding;
-        index += sizeof(T) * 8;
+        index += bits;
         return dat;
     }
 };
