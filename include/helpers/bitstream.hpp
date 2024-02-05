@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include "helpers/swap_endian.hpp"
+#include "helpers/types.hpp"
 /*
 
 */
@@ -17,7 +18,7 @@
 class bitstream {
 private:
     const byte_t *data; // where bitstream is contained
-    int size;   // size of the bitstream
+    uint64_t size;   // size of the bitstream
     uint64_t index = 0;
 public:
     // returns data as a byte array
@@ -25,8 +26,8 @@ public:
 //        return data;
 //    }
     /**************************/
-    bool getbit(byte_t x, uint64_t y) {
-        return (x >> (7 - y)) & 1;
+    byte_t getbit(byte_t x, uint64_t y) {
+        return (x >> y) & 1;
     }
 //    int chbit(int x, int i, bool v) {
 //        if(v) return x | (1 << (7 - i));
@@ -35,9 +36,12 @@ public:
     /**************************/
 
     // opens an existing byte array as bitstream
-    void openBytes(const byte_t *bytes, int _size) {
+    void openBytes(const byte_t *bytes, uint64_t _size) {
         data = bytes;
-        size = _size;
+        size = _size * 8;
+    }
+    bool has_more_bits() const {
+        return index < size;
     }
     // creates a new bit stream
 //    void open(int _size) {
@@ -61,11 +65,18 @@ public:
     template<typename T>
     T read(uint32_t bits) {
         T dat = 0;
-        for(uint64_t i = index; i < index + bits; i++) {
-            dat = (dat << 1) | getbit(data[i / 8], i % 8);
+        // 0000000000000011001101010000000100000101110010111111101011101010
+        for(uint64_t i = 0; i < bits; i++) {
+            auto bit = getbit(data[index / 8 + i / 8], i % 8);
+            auto shift = i;
+            auto shifted_bit = (bit | 0ull) << shift;
+            dat = dat | (shifted_bit);
         }
-        index += bits;
-        return swap_endian(dat);
+//        auto padding = sizeof(T) * 8 - bits;
+//        dat = swap_endian(dat);
+//        dat >>= padding;
+        index += sizeof(T) * 8;
+        return dat;
     }
 };
 
