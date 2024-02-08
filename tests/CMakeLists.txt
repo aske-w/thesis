@@ -5,7 +5,7 @@ set(TEST_SOURCES
     test.cpp
 )
 
-add_executable(tests test.cpp)
+add_executable(tests ${TEST_SOURCES})
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 include(CTest)
 include(Catch)

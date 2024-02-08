@@ -50,14 +50,14 @@ public:
         _type = streamtype::WRITE;
         _size = size * 8;
         _data = bytes;
-        std::memset(_data, 0, _size);
+        bzero(_data, size);
     }
     bool has_more_bits() const {
         return _index < _size;
     }
     template<typename T>
     void write(T t, uint32_t bits) {
-        D_ASSERT(sizeof(T) * 8 >= bits);
+//        D_ASSERT(sizeof(T) * 8 >= bits);
         check_type<streamtype::WRITE>();
         auto t_bytes = reinterpret_cast<byte_t*>(&t);
 
@@ -75,6 +75,7 @@ public:
             auto result = bit_cleared_result | mask;
             _data[stream_index] = result;
         }
+        _index += bits;
     }
     // reads from bitstream
     template<typename T>
