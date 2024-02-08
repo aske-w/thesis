@@ -5,6 +5,12 @@
 
 
 int main() {
+    bitstream b;
+
+    std::unique_ptr<byte_t*> bytes = std::make_unique<byte_t*>(new byte_t[16]);
+    b.open_write(*bytes, 16);
+    b.write(0b1011ull, 8);
+    return 0;
     std::vector<double_t> in {
             0.5809342160789636,
             0.5579516804295914,

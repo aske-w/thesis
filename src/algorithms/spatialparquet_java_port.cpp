@@ -32,7 +32,6 @@ namespace algorithms {
         }
 ////        auto double_bytes = vector<byte_t>(in.begin(), in.end());
 ////        auto data = double_bytes.data();
-//        b.openBytes(reinterpret_cast<const byte_t*>(in.data()), in.size());
         uint32_t currentCount = 0;
         uint64_t finalSize = sizeof(double_t) * in.size() * 8 + 8;
         int32_t redundantBits = 0;
@@ -49,12 +48,18 @@ namespace algorithms {
             }
         }
 
+        uint8_t bits = sizeof(double_t) * 8 - redundantBits;
+        const auto data_bytes = reinterpret_cast<const byte_t*>(in.data());
+        bitstream b;
+        int64_t max = -1l >> redundantBits; // TODO just -1?
+        int64_t leadingOnes = -1l << bits;
+//        b.open_read(reinterpret_cast<const byte_t*>(in.data()), in.size());
         throw std::exception{};
     }
     void spatialparquet_java_port::decode(const vector<byte_t>& in, vector<double_t>& out) {
         bitstream b{};
         auto data = in.data();
-        b.openBytes(data, in.size());
+        b.open_read(data, in.size());
 
         const auto n = b.read<uint8_t>(8);
         const uint64_t reset_marker = -1ull >> (64 - n);
