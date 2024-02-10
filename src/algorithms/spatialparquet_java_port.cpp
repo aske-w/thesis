@@ -66,7 +66,7 @@ namespace algorithms {
             int64_t delta = curr - prev;
             int64_t zigzag = (delta >> 63) ^ (delta << 1);
             int64_t common = zigzag & leadingOnes;
-            if (common != 0 || zigzag == max) {
+            if (bits < 64 && (common != 0 || zigzag == max)) {
                 outstream.write(max, bits);
                 outstream.write(zigzag, 64);
             } else {
@@ -78,7 +78,8 @@ namespace algorithms {
         }
         return out;
     }
-    void spatialparquet_java_port::decode(const vector<byte_t>& in, vector<double_t>& out) {
+    std::unique_ptr<vector<double_t>> spatialparquet_java_port::decode(const vector<byte_t>& in) {
+        auto out = std::make_unique<vector<double_t>>();
         bitstream b{};
         auto data = in.data();
         b.open_read(data, in.size());
@@ -102,7 +103,8 @@ namespace algorithms {
             }
             tmp = ((tmp >> 1) ^ -(tmp & 1)) + prev;
             prev = tmp;
-            out.push_back(*reinterpret_cast<double_t*>(&tmp));
+            out->push_back(*reinterpret_cast<double_t*>(&tmp));
         }
+        return out;
     }
 } // algorithms

@@ -14,3 +14,4 @@ add_subdirectory(src)
 add_subdirectory(tests)
 
 add_executable(${NAME} ${SOURCES})
+add_library(${NAME}_lib STATIC ${SOURCES})
