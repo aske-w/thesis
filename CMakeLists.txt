@@ -1,6 +1,16 @@
 cmake_minimum_required(VERSION 3.26)
-project(thesis)
+set(NAME thesis)
+project(${NAME})
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
+set(DISABLE_ASSERTIONS 0)
 
-add_executable(thesis main.cpp)
+if (NOT (${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+    set(DISABLE_ASSERTIONS 1)
+endif ()
+
+include_directories(include)
+add_subdirectory(src)
+add_subdirectory(tests)
+
+add_executable(${NAME} ${SOURCES})
