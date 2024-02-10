@@ -12,7 +12,7 @@ namespace algorithms {
 
 class spatialparquet_java_port {
 public:
-    static void encode(const std::vector<double_t>& in, std::vector<byte_t>& out);
+    static std::unique_ptr<byte_t*> encode(const std::vector<double_t>& in);
     static void decode(const std::vector<byte_t>& in, std::vector<double_t>& out);
 };
 

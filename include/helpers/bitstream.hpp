@@ -58,16 +58,19 @@ public:
     template<typename T>
     void write(T t, uint32_t bits) {
 //        D_ASSERT(sizeof(T) * 8 >= bits);
+
+        auto p = swap_endian(t);
+        auto offset = sizeof(T) * 8 - bits;
         check_type<streamtype::WRITE>();
-        auto t_bytes = reinterpret_cast<byte_t*>(&t);
+        auto t_bytes = reinterpret_cast<byte_t*>(&p);
 
         for(uint8_t i = 0; i < bits; i++) {
-            auto data_bit = (i % 8);
-            auto data_index = i / 8;
+            auto data_bit = 7 - ((i + offset) % 8);
+            auto data_index = (i + offset) / 8;
             auto _bit = (t_bytes[data_index] >> data_bit) & 1ull;
 
             auto stream_pos = _index + i;
-            auto stream_bit = (stream_pos % 8);
+            auto stream_bit = 7- (stream_pos % 8);
             auto stream_index = stream_pos / 8;
             auto stream_byte = _data[stream_index];
             auto mask = _bit << stream_bit;
