@@ -26,7 +26,5 @@ AlwaysBreakTemplateDeclarations: Yes
 IncludeBlocks: Regroup
 Language: Cpp
 AccessModifierOffset: -4
----
-Language: Cpp
 SpaceAfterCStyleCast: true
 ---

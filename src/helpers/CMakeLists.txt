@@ -1,3 +1,4 @@
 set(SOURCES ${SOURCES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/bitstream.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/assert.cpp
     PARENT_SCOPE)

@@ -4,46 +4,44 @@ WarningsAsErrors: '*'
 AnalyzeTemporaryDtors: false
 FormatStyle: none
 CheckOptions:
-  readability-identifier-naming.ClassCase:
-    value:           CamelCase
-  readability-identifier-naming.EnumCase:
-    value:           CamelCase
-  readability-identifier-naming.TypedefCase:
-    value:           lower_case
-  readability-identifier-naming.TypedefSuffix:
-    value:           _t
-  readability-identifier-naming.FunctionCase:
-    value:           CamelCase
-  readability-identifier-naming.MemberCase:
-    value:           lower_case
-  readability-identifier-naming.ParameterCase:
-    value:           lower_case
-  readability-identifier-naming.ConstantCase:
-    value:           aNy_CasE
-  readability-identifier-naming.ConstantParameterCase:
-    value:           lower_case
-  readability-identifier-naming.NamespaceCase:
-    value:           lower_case
-  readability-identifier-naming.MacroDefinitionCase:
-    value:           UPPER_CASE
-  readability-identifier-naming.StaticConstantCase:
-    value:           UPPER_CASE
-  readability-identifier-naming.ConstantMemberCase:
-    value:           aNy_CasE
-  readability-identifier-naming.StaticVariableCase:
-    value:           UPPER_CASE
-  readability-identifier-naming.ClassConstantCase:
-    value:           UPPER_CASE
-  readability-identifier-naming.EnumConstantCase:
-    value:           UPPER_CASE
-  readability-identifier-naming.ConstexprVariableCase:
-    value:           UPPER_CASE
-  readability-identifier-naming.TemplateTemplateParameterCase:
-    value:           UPPER_CASE
-  readability-identifier-naming.TypeTemplateParameterCase:
-    value:           UPPER_CASE
-  readability-identifier-naming.VariableCase:
-    value:           lower_case
-  modernize-use-emplace.SmartPointers:
-    value:           '::std::shared_ptr;::duckdb::unique_ptr;::std::auto_ptr;::std::weak_ptr'
+- key: 'readability-identifier-naming.ClassCase'
+  value:           CamelCase
+- key: 'readability-identifier-naming.EnumCase'
+  value:           CamelCase
+- key: 'readability-identifier-naming.TypedefCase'
+  value:           lower_case
+- key: 'readability-identifier-naming.TypedefSuffix'
+  value:           _t
+- key: 'readability-identifier-naming.FunctionCase'
+  value:           CamelCase
+- key: 'readability-identifier-naming.MemberCase'
+  value:           lower_case
+- key: 'readability-identifier-naming.ParameterCase'
+  value:           lower_case
+- key: 'readability-identifier-naming.ConstantCase'
+  value:           aNy_CasE
+- key: 'readability-identifier-naming.ConstantParameterCase'
+  value:           lower_case
+- key: 'readability-identifier-naming.NamespaceCase'
+  value:           lower_case
+- key: 'readability-identifier-naming.MacroDefinitionCase'
+  value:           UPPER_CASE
+- key: 'readability-identifier-naming.StaticConstantCase'
+  value:           UPPER_CASE
+- key: 'readability-identifier-naming.ConstantMemberCase'
+  value:           aNy_CasE
+- key: 'readability-identifier-naming.StaticVariableCase'
+  value:           UPPER_CASE
+- key: 'readability-identifier-naming.ClassConstantCase'
+  value:           UPPER_CASE
+- key: 'readability-identifier-naming.EnumConstantCase'
+  value:           UPPER_CASE
+- key: 'readability-identifier-naming.ConstexprVariableCase'
+  value:           UPPER_CASE
+- key: 'readability-identifier-naming.TemplateTemplateParameterCase'
+  value:           UPPER_CASE
+- key: 'readability-identifier-naming.TypeTemplateParameterCase'
+  value:           UPPER_CASE
+- key: 'readability-identifier-naming.VariableCase'
+  value:           lower_case
 

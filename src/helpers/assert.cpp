@@ -4,11 +4,11 @@
 #include <cstdlib>
 namespace thesis {
 
-class assertException : public std::exception {
+class AssertException : public std::exception {
 private:
     std::unique_ptr<char*> msg;
 public:
-    explicit assertException(const char *condition_name, const char *file, int linenr)
+    explicit AssertException(const char *condition_name, const char *file, int linenr)
     : std::exception() {
         auto fmt = "Assertion triggered in file \"%s\" on line %d: %s";
         auto linenr_str = std::to_string(linenr);
@@ -28,7 +28,7 @@ void AssertInternal(bool condition, const char *condition_name, const char *file
 	if (condition) {
 		return;
 	}
-	throw assertException(condition_name, file, linenr);
+	throw AssertException(condition_name, file, linenr);
 }
 
 }
