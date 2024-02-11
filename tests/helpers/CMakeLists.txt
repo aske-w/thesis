@@ -1,5 +1,0 @@
-
-
-set(TEST_SOURCES ${TEST_SOURCES}
-        ${CMAKE_CURRENT_SOURCE_DIR}/generators.cpp
-        PARENT_SCOPE)
